@@ -2,7 +2,7 @@ import AddIcon from "@mui/icons-material/Add";
 
 const CreateProjectBigCTA: React.FC = () => {
   return (
-    <div className="create-project-big-CTA-wrapper flex flex-col items-center">
+    <div className="create-project-big-CTA-wrapper flex flex-col items-center text-active-el">
       <span className="text-8xl">
         <AddIcon fontSize="inherit" />
       </span>

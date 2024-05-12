@@ -5,8 +5,19 @@ import { SignInScreen } from "./Pages/SignInScreen";
 import { SignUpScreen } from "./Pages/SignUpScreen";
 import { SignUpScreenInitial } from "./UI-Components/Global-Components/SignUpScreen-initial";
 import InProjectPage from "./Pages/InProjectPage";
+import ProjectsService from "./ServiceLayer/ProjectsService";
 
 function App() {
+  const projectsService = new ProjectsService();
+  async function TestRun() {
+    await projectsService.getAllProjectsForUser(
+      "d4199734-7b37-40f9-b674-e940183c0c8e",
+      "test token"
+    );
+  }
+
+  TestRun();
+
   return (
     <div className="w-full h-full bg-background">
       <Routes>

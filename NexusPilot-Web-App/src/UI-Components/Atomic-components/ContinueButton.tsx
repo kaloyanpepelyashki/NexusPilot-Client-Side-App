@@ -1,8 +1,16 @@
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { useNavigate } from "react-router-dom";
+type ContinueButtonProps = {
+  to: string;
+};
+export const ContinueButton: React.FC<ContinueButtonProps> = (to: string) => {
+  const navigate = useNavigate();
 
-export const ContinueButton: React.FC = () => {
+  const navigateNext = () => {
+    navigate(to);
+  };
   return (
-    <button className="w-1/5 rounded-md bg-active-el">
+    <button onClick={navigateNext} className="w-1/5 rounded-md bg-active-el">
       Continue
       <ArrowForwardIosIcon />
     </button>

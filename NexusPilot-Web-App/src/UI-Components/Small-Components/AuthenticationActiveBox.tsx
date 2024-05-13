@@ -12,7 +12,7 @@ export const AuthenticationActiveBox = ({ children }) => {
       <div className="flex flex-col w-full h-3/4">{children}</div>
       <div className="w-full flex flex-row justify-between mt-3">
         <SignUpTextButton />
-        <ContinueButton />
+        <ContinueButton to={"/"} />
       </div>
     </div>
   );

@@ -19,3 +19,21 @@
     animation: logo-spin infinite 20s linear;
   }
 }
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner {
+  border: 8px solid rgba(0, 0, 0, 0.1); /* Light grey border */
+  border-top: 8px solid #003366; /* Blue color */
+  border-radius: 50%;
+  width: 70px;
+  height: 65px;
+  animation: spin 1s linear infinite;
+}

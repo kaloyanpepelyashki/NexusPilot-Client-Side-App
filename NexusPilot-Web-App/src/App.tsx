@@ -6,6 +6,9 @@ import { SignUpScreen } from "./Pages/SignUpScreen";
 import { SignUpScreenInitial } from "./UI-Components/Global-Components/SignUpScreen-initial";
 import InProjectPage from "./Pages/InProjectPage";
 import ProjectsService from "./ServiceLayer/ProjectsService";
+import { AccessStateProviderComponent } from "./ContextProviders/AccessStateProvider";
+import PostSigninSplashScreen from "./Pages/PostSignInSplashScreen";
+import ProtectedRoute from "./Routes/GuardedRoute";
 
 function App() {
   const projectsService = new ProjectsService();
@@ -20,14 +23,31 @@ function App() {
 
   return (
     <div className="w-full h-full bg-background">
-      <Routes>
-        <Route path="/" element={<DashBoard />} />
-        <Route path="/auth/Signin" element={<SignInScreen />} />
-        <Route path="/auth/signup" element={<SignUpScreen />}>
-          <Route index element={<SignUpScreenInitial />} />
-        </Route>
-        <Route path="/project/:projectId" element={<InProjectPage />} />
-      </Routes>
+      <AccessStateProviderComponent>
+        <Routes>
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute fallBackPath="/">
+                <DashBoard />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/" element={<SignInScreen />} />
+          <Route path="/loading" element={<PostSigninSplashScreen />} />
+          <Route path="/auth/signup" element={<SignUpScreen />}>
+            <Route index element={<SignUpScreenInitial />} />
+          </Route>
+          <Route
+            path="/project/:projectId"
+            element={
+              <ProtectedRoute fallBackPath="/">
+                <InProjectPage />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </AccessStateProviderComponent>
     </div>
   );
 }

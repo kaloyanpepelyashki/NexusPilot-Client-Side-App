@@ -3,6 +3,7 @@ import InputField from "../Atomic-components/InputField";
 
 export const SignUpFirstStepContent: React.FC = () => {
   const [state, setState] = useState<string>(" ");
+
   return (
     <div className=" w-11/12 h-full flex flex-col">
       <InputField

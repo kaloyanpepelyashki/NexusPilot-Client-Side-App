@@ -1,16 +1,22 @@
-import React, { useState } from "react";
+import React from "react";
 
 type InputFieldType = {
   heading?: string;
   placeHolderText?: string;
-  isPassword: boolean;
+  errorMessage?: string;
+  isPassword?: boolean;
+  isEmail?: boolean;
+  error?: boolean;
   setState: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const InputField: React.FC<InputFieldType> = ({
   heading,
   placeHolderText,
+  errorMessage,
   isPassword,
+  isEmail,
+  error,
   setState,
 }) => {
   return (
@@ -22,12 +28,14 @@ const InputField: React.FC<InputFieldType> = ({
       ) : (
         " "
       )}
+
       <input
         className="w-full h-1/4 bg-white text-black border border-solid border-sky-500 rounded-md bg-secondary drop-shadow-xl text-heading pl-2 pt-3 pb-3"
-        type={isPassword ? "password" : "text"}
+        type={isPassword ? "password" : isEmail ? "email" : "text"}
         placeholder={placeHolderText ? placeHolderText : " "}
         onChange={(e) => setState(e.target.value)}
       />
+      {error ? <p className="text-xs text-error ">{errorMessage}</p> : ""}
     </div>
   );
 };

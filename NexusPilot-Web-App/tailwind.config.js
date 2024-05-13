@@ -9,6 +9,7 @@ export default {
       secondary: "#FFFFFF",
       accent: "#FFA500",
       heading: "#000000",
+      error: "red",
     },
     extend: {},
   },

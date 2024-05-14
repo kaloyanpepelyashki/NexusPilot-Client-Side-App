@@ -5,32 +5,53 @@ import CreateProjectBigCTA from "../UI-Components/Small-Components/CreateProject
 import { AccessState } from "../ContextProviders/AccessStateProvider";
 import ProjectsService from "../ServiceLayer/ProjectsService";
 import ProjectItem from "../Models/ProjectItem";
+import { useNavigate } from "react-router-dom";
 
 export const DashBoard = () => {
   const accessState = useContext(AccessState);
+  const navigate = useNavigate();
 
-  const userId: string = accessState?.currentUserState?.userId;
-  const accessToken: string = accessState?.currentUserState?.jwt;
+  const userId: string | undefined = accessState?.currentUserState?.userId;
+  const accessToken: string | undefined = accessState?.currentUserState?.jwt;
 
   const projectsService: ProjectsService = new ProjectsService();
 
-  const [projectsList, setProjectsList] = useState<ProjectItem[]>();
+  const [projectsList, setProjectsList] = useState<ProjectItem[] | null>([]);
 
   async function getProjects() {
-    setProjectsList(
-      await projectsService.getAllProjectsForUser(userId, accessToken)
-    );
+    try {
+      if (userId && accessToken) {
+        setProjectsList(
+          await projectsService.getAllProjectsForUser(userId, accessToken)
+        );
+
+        return;
+      }
+
+      navigate("/");
+    } catch (error) {
+      console.log("Error fetching projects:  ", error);
+      window.alert("Error fetching projects, please refresh the page");
+    }
   }
 
   useEffect(() => {
     getProjects();
-  });
+  }, []);
+
   return (
     <div className="h-full">
       <DashBoardTopBar />
       <main className="dashboard-page-main-container h-5/6 flex flex-col justify-center items-center">
-        <CreateProjectBigCTA />
-        <ProjectItemsHolder />
+        {projectsList != null ? (
+          projectsList?.length < 0 ? (
+            <CreateProjectBigCTA />
+          ) : (
+            <ProjectItemsHolder projectsList={projectsList} />
+          )
+        ) : (
+          <CreateProjectBigCTA />
+        )}
       </main>
     </div>
   );

@@ -8,7 +8,8 @@ class AuthenticationService {
   private serviceUrl: string;
 
   constructor() {
-    this.serviceUrl = "http://localhost:5191";
+    this.serviceUrl =
+      "https://nexuspilot-authentication-service-latest.onrender.com";
   }
 
   public async signIn(

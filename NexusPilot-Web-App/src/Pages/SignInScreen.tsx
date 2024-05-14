@@ -46,7 +46,7 @@ export const SignInScreen: React.FC = () => {
     <main className="w-full h-full flex flex-col justify-center items-center">
       <div className=" w-3/5 h-2/4 flex flex-col bg-white rounded-xl p-9 bg-secondary">
         <div className="flex flex-row mb-8">
-          <BackButton />
+          <BackButton textColor="text-heading" />
         </div>
         {/* Widget Main content holder */}
         <div className="flex flex-col w-full h-3/4">

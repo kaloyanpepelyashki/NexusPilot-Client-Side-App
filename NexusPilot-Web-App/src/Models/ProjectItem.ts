@@ -2,8 +2,8 @@ class ProjectItem {
   id: string;
   title: string;
   description: string;
-  thumbnailImageUrl: string;
-  backgroundImageUrl: string;
+  tumbnailImageUrl: string;
+  backGroundImageUrl: string;
   startDate: string;
   endDate: string;
   closed: boolean;
@@ -13,8 +13,8 @@ class ProjectItem {
     id: string,
     title: string,
     description: string,
-    thumbnailImageUrl: string,
-    backgroundImageUrl: string,
+    tumbnailImageUrl: string,
+    backGroundImageUrl: string,
     startDate: string,
     endDate: string,
     closed: boolean,
@@ -23,8 +23,8 @@ class ProjectItem {
     this.id = id;
     this.title = title;
     this.description = description;
-    this.thumbnailImageUrl = thumbnailImageUrl;
-    this.backgroundImageUrl = backgroundImageUrl;
+    this.tumbnailImageUrl = tumbnailImageUrl;
+    this.backGroundImageUrl = backGroundImageUrl;
     this.startDate = startDate;
     this.endDate = endDate;
     this.closed = closed;

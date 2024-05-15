@@ -13,30 +13,38 @@ export const SignInScreen: React.FC = () => {
   const navigate = useNavigate();
 
   //Stateful variables
-  const [userEmail, setUserEmail] = useState<string>("");
+  const [userEmail, setUserEmail] = useState<string | undefined>();
+  ("");
   const [emailError, setEmailError] = useState<boolean>(false);
 
-  const [userPassword, setUserPassword] = useState<string>("");
+  const [userPassword, setUserPassword] = useState<string | undefined>("");
 
   //Arrange section
   const authenticationService = new AuthenticationService();
 
-  async function authenticate(email: string, password: string) {
+  async function authenticate(
+    email: string | undefined,
+    password: string | undefined
+  ) {
     setEmailError(false);
-    //Checks credentials validity
-    if (email.length > 0 || password.length > 0) {
-      //Checks email validity
-      if (!email.includes("@") || email.length < 4) {
-        setEmailError(true);
-        return;
-      }
+    if (email && password) {
+      //Checks credentials validity
+      if (email.length > 0 || password.length > 0) {
+        //Checks email validity
+        if (!email.includes("@") || email.length < 4) {
+          setEmailError(true);
+          return;
+        }
 
-      const result = await authenticationService.signIn(email, password);
-      if (!result) {
-        return window.alert("Wrong email or password");
+        const result = await authenticationService.signIn(email, password);
+        if (!result) {
+          return window.alert("Wrong email or password");
+        }
+        accessState?.setCurrentUserState(result);
+        return navigate("/loading");
+      } else {
+        window.alert("Please fill out all fields");
       }
-      accessState?.setCurrentUserState(result);
-      return navigate("/loading");
     } else {
       window.alert("Please fill out all fields");
     }

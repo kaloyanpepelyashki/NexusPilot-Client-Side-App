@@ -76,6 +76,33 @@ class AuthenticationService {
       console.log(`Error getting user ${userId}`);
     }
   }
+
+  public async createNewUserProfile(
+    nickName: string,
+    bio: string,
+    role: string,
+    email: string,
+    password: string
+  ): Promise<boolean> {
+    const response = await fetch(`${this.serviceUrl}/api/Auth/signup`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        nickName: nickName,
+        bio: bio,
+        role: role,
+        email: email,
+        password: password,
+      }),
+    });
+    if (response.status == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
 
 export default AuthenticationService;

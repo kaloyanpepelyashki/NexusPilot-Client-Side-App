@@ -73,7 +73,8 @@ const InProjectPage: React.FC = () => {
         <InProjectTopBar />
         <h2>in project page</h2>
         <div className="w-1/4 bg-primary">
-          <TaskItem />
+          //To be fixed later
+          {projectTasksList?.length == 0 ? <TaskItem /> : " "}
         </div>
       </div>
     </main>

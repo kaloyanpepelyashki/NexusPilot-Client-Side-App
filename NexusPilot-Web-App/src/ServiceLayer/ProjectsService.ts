@@ -1,3 +1,4 @@
+import { Tune } from "@mui/icons-material";
 import ProjectItem from "../Models/ProjectItem";
 
 /**
@@ -66,6 +67,46 @@ class ProjectsService {
       return null;
     } catch (e) {
       console.log(`Error getting project ${projectId}: ${e}`);
+      throw e;
+    }
+  }
+
+  public async createNewProject(
+    projectTitle: string,
+    projectDescription: string,
+    projectStartDate: string,
+    projectEndDate: string,
+    projectThumbnailUrl: string,
+    projectBackgroundUrl: string,
+    projectOwnerId: string,
+    jwt: string
+  ): Promise<boolean> {
+    try {
+      const response = await fetch(`${this.serviceUrl}/api/Creation/project`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${jwt}`,
+        },
+        body: JSON.stringify({
+          userUUId: projectOwnerId,
+          title: projectTitle,
+          description: projectDescription,
+          tumbnailImageUrl: projectThumbnailUrl,
+          backgroundImageUrl: projectBackgroundUrl,
+          startDate: projectStartDate,
+          endDate: projectEndDate,
+        }),
+      });
+
+      if (response.status == 200) {
+        return true;
+      }
+
+      console.log("response status: ", response.status);
+      return false;
+    } catch (e) {
+      console.log(`Error creating new project: ${e}`);
       throw e;
     }
   }

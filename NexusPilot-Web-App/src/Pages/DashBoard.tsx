@@ -6,17 +6,25 @@ import { AccessState } from "../ContextProviders/AccessStateProvider";
 import ProjectsService from "../ServiceLayer/ProjectsService";
 import ProjectItem from "../Models/ProjectItem";
 import { useNavigate } from "react-router-dom";
+import CreateProjectOverlay from "../UI-Components/Global-Components/CreateProjectOverlay";
 
 export const DashBoard = () => {
   const accessState = useContext(AccessState);
   const navigate = useNavigate();
 
-  const userId: string | undefined = accessState?.currentUserState?.userId;
-  const accessToken: string | undefined = accessState?.currentUserState?.jwt;
-
-  const projectsService: ProjectsService = new ProjectsService();
+  const [shouldReload, setShouldReloald] = useState<boolean>(false);
 
   const [projectsList, setProjectsList] = useState<ProjectItem[] | null>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const userId: string = accessState?.currentUserState?.userId
+    ? accessState?.currentUserState?.userId
+    : "";
+  const accessToken: string = accessState?.currentUserState?.jwt
+    ? accessState?.currentUserState?.jwt
+    : " ";
+
+  const projectsService: ProjectsService = new ProjectsService();
 
   async function getProjects() {
     try {
@@ -36,23 +44,62 @@ export const DashBoard = () => {
   }
 
   useEffect(() => {
-    getProjects();
+    if (shouldReload) {
+      setIsLoading(true);
+      getProjects().finally(() => {
+        setIsLoading(false);
+      });
+    }
+  }, [shouldReload]);
+
+  useEffect(() => {
+    getProjects().finally(() => {
+      setIsLoading(false);
+    });
   }, []);
 
-  return (
-    <div className="h-full">
-      <DashBoardTopBar />
-      <main className="dashboard-page-main-container h-5/6 flex flex-col justify-center items-center">
-        {projectsList != null ? (
-          projectsList?.length < 0 ? (
-            <CreateProjectBigCTA />
-          ) : (
-            <ProjectItemsHolder projectsList={projectsList} />
-          )
+  const [openCreateProjectOverlay, setOpenCreateProjectOverlay] =
+    useState<boolean>(false);
+
+  if (userId.length > 0 || accessToken.length > 0) {
+    return (
+      <div className="h-full">
+        <DashBoardTopBar />
+        {isLoading ? (
+          <>
+            <main className="w-full h-full flex flex-col justify-center items-center">
+              <div className="spinner"></div>
+              <h3 className="text-lg font-bold text-heading mt-10">
+                Stand still loading...
+              </h3>
+            </main>
+          </>
         ) : (
-          <CreateProjectBigCTA />
+          <main className="dashboard-page-main-container h-5/6 flex flex-col justify-center items-center">
+            {projectsList != null ? (
+              projectsList?.length < 0 ? (
+                <CreateProjectBigCTA setState={setOpenCreateProjectOverlay} />
+              ) : (
+                <ProjectItemsHolder projectsList={projectsList} />
+              )
+            ) : (
+              <CreateProjectBigCTA setState={setOpenCreateProjectOverlay} />
+            )}
+          </main>
         )}
-      </main>
-    </div>
-  );
+        {openCreateProjectOverlay ? (
+          <CreateProjectOverlay
+            userId={userId}
+            jwt={accessToken}
+            setCloseState={setOpenCreateProjectOverlay}
+            setShouldReload={setShouldReloald}
+          />
+        ) : (
+          " "
+        )}
+      </div>
+    );
+  } else {
+    navigate("/");
+  }
 };

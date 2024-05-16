@@ -45,7 +45,7 @@ const SignUpScreenFourth: React.FC = () => {
         </div>
         <div className="w-full flex flex-row justify-between mt-3">
           <SignUpTextButton />
-          <ContinueButton action={continueAction} />
+          <ContinueButton heading={"Continue"} action={continueAction} />
         </div>
       </div>
     </>

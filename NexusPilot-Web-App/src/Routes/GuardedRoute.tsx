@@ -1,9 +1,9 @@
 import { useContext } from "react";
-import { Navigate, Outlet, Route, RouterProps } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { AccessState } from "../ContextProviders/AccessStateProvider";
 
 //Neccessary to extend RouterProps in order to get outlet
-interface IProtectedRoute extends RouterProps {
+interface IProtectedRoute {
   children: JSX.Element;
   fallBackPath: string;
 }

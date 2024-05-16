@@ -1,7 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import SideBar from "../UI-Components/Global-Components/SideBar";
 import InProjectTopBar from "../UI-Components/Global-Components/InProjectTopBar";
-import TaskItem from "../UI-Components/Small-Components/TaskItem";
 import ProjectsService from "../ServiceLayer/ProjectsService";
 import { useContext, useEffect, useState } from "react";
 import ProjectItem from "../Models/ProjectItem";
@@ -9,6 +8,8 @@ import { AccessState } from "../ContextProviders/AccessStateProvider";
 import TasksService from "../ServiceLayer/TaskService";
 import Add from "@mui/icons-material/Add";
 import CreateTaskOverlay from "../UI-Components/Global-Components/CreateTaskOverlay";
+import TaskItem from "../Models/TskItem";
+import TaskItemComponent from "../UI-Components/Small-Components/TaskItem";
 
 const InProjectPage: React.FC = () => {
   /** Hooks */
@@ -101,7 +102,7 @@ const InProjectPage: React.FC = () => {
                 {projectTasksList && projectTasksList?.length > 0
                   ? projectTasksList.map((task) => {
                       return (
-                        <TaskItem
+                        <TaskItemComponent
                           summary={task.summary}
                           endDate={task.endDate}
                           priority={task.pirority}

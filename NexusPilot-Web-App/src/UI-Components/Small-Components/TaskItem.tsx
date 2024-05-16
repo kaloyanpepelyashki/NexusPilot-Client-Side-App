@@ -7,7 +7,11 @@ type TaskItemProps = {
   priority: string;
 };
 
-const TaskItem: React.FC<TaskItemProps> = ({ summary, endDate, priority }) => {
+const TaskItemComponent: React.FC<TaskItemProps> = ({
+  summary,
+  endDate,
+  priority,
+}) => {
   return (
     <div className="task-item-wrapper w-30 h-20 flex flex-col px-2.5 pt-2.5 pb-1.5 mr-5 bg-secondary">
       <div className="task-main-content-section flex flex-row justify-between items-start">
@@ -26,4 +30,4 @@ const TaskItem: React.FC<TaskItemProps> = ({ summary, endDate, priority }) => {
   );
 };
 
-export default TaskItem;
+export default TaskItemComponent;

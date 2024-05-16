@@ -3,6 +3,7 @@ import AuthenticationService from "../ServiceLayer/AuthenticationService";
 import { SignUpContext } from "../ContextProviders/SignUpContextProvider";
 import { Snackbar } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import Loader from "../UI-Components/Atomic-components/Loader";
 
 const PostSignUpSplashScreen: React.FC = () => {
   //Hooks
@@ -52,13 +53,10 @@ const PostSignUpSplashScreen: React.FC = () => {
   }, []);
 
   return (
-    <main className="w-full h-full flex flex-col justify-center items-center">
+    <>
       <Snackbar open={open} message="Account created" autoHideDuration={900} />
-      <div className="spinner"></div>
-      <h3 className="text-lg font-bold text-heading mt-10">
-        Stand still loading...
-      </h3>
-    </main>
+      <Loader />
+    </>
   );
 };
 export default PostSignUpSplashScreen;

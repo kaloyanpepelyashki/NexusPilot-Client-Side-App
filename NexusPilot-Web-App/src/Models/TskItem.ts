@@ -3,7 +3,7 @@ class TaskItem {
   summary: string;
   description: string;
   imageUrl: string;
-  priority: string;
+  pirority: string;
   startDate: string;
   endDate: string;
   done: boolean;
@@ -25,7 +25,7 @@ class TaskItem {
     this.summary = summary;
     this.description = description;
     this.imageUrl = imageUrl;
-    this.priority = priority;
+    this.pirority = priority;
     this.startDate = startDate;
     this.endDate = endDate;
     this.done = done;
@@ -33,3 +33,4 @@ class TaskItem {
     this.taskOwnerId = taskOwnerId;
   }
 }
+export default TaskItem;

@@ -7,6 +7,7 @@ import ProjectsService from "../ServiceLayer/ProjectsService";
 import ProjectItem from "../Models/ProjectItem";
 import { useNavigate } from "react-router-dom";
 import CreateProjectOverlay from "../UI-Components/Global-Components/CreateProjectOverlay";
+import Loader from "../UI-Components/Atomic-components/Loader";
 
 export const DashBoard = () => {
   const accessState = useContext(AccessState);
@@ -66,14 +67,7 @@ export const DashBoard = () => {
       <div className="h-full">
         <DashBoardTopBar />
         {isLoading ? (
-          <>
-            <main className="w-full h-full flex flex-col justify-center items-center">
-              <div className="spinner"></div>
-              <h3 className="text-lg font-bold text-heading mt-10">
-                Stand still loading...
-              </h3>
-            </main>
-          </>
+          <Loader />
         ) : (
           <main className="dashboard-page-main-container h-5/6 flex flex-col justify-center items-center">
             {projectsList != null ? (

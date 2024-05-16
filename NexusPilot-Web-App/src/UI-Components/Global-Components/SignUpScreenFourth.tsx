@@ -11,6 +11,7 @@ const SignUpScreenFourth: React.FC = () => {
   //The signUpContext comes from the SignUpContextProvider context component
   const signUpContext = useContext(SignUpContext);
   const navigate = useNavigate();
+
   //Error states
   const [bioError, setBioError] = useState<boolean>(false);
 

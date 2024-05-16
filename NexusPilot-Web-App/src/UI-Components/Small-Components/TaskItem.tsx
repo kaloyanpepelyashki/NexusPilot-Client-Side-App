@@ -1,15 +1,21 @@
 import AssigneeAvatart from "../Atomic-components/AssigneeAvatart";
 import TaskPriorityTag from "../Atomic-components/TaskPriorityTag";
 
-const TaskItem: React.FC = () => {
+type TaskItemProps = {
+  summary: string;
+  endDate: string;
+  priority: string;
+};
+
+const TaskItem: React.FC<TaskItemProps> = ({ summary, endDate, priority }) => {
   return (
-    <div className="task-item-wrapper h-20 flex flex-col px-2.5 pt-2.5 pb-1.5 bg-secondary">
+    <div className="task-item-wrapper w-30 h-20 flex flex-col px-2.5 pt-2.5 pb-1.5 mr-5 bg-secondary">
       <div className="task-main-content-section flex flex-row justify-between items-start">
         <div className="task-title-and-due flex flex-col items-start">
-          <h4 className="text-base font-medium text-heading">Task Item</h4>
-          <h5 className="text-sm font-medium text-heading">Due: 18/06</h5>
+          <h4 className="text-base font-medium text-heading">{summary}</h4>
+          <h5 className="text-sm font-medium text-heading">Due: {endDate}</h5>
         </div>
-        <TaskPriorityTag priority="high" />
+        <TaskPriorityTag priority={priority} />
       </div>
       <div className="task-assignees-list flex flex-row">
         <AssigneeAvatart imageUrl="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?cs=srgb&dl=pexels-simon-robben-55958-614810.jpg&fm=jpg" />

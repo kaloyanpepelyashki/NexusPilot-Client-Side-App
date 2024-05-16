@@ -3,6 +3,7 @@ import AuthenticationService from "../ServiceLayer/AuthenticationService";
 import { AccessState } from "../ContextProviders/AccessStateProvider";
 import { useNavigate } from "react-router-dom";
 import User from "../Models/Auth/User";
+import Loader from "../UI-Components/Atomic-components/Loader";
 
 const PostSigninSplashScreen: React.FC = () => {
   //Hooks
@@ -36,14 +37,7 @@ const PostSigninSplashScreen: React.FC = () => {
     fetchUserProfile();
   }, []);
 
-  return (
-    <main className="w-full h-full flex flex-col justify-center items-center">
-      <div className="spinner"></div>
-      <h3 className="text-lg font-bold text-heading mt-10">
-        Stand still loading...
-      </h3>
-    </main>
-  );
+  return <Loader />;
 };
 
 export default PostSigninSplashScreen;

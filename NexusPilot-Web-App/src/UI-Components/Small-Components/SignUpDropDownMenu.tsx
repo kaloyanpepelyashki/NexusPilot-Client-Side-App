@@ -15,9 +15,11 @@ type SignUpDropDownMenuProps = {
 const SignUpDropDownMenu: React.FC<SignUpDropDownMenuProps> = ({
   setPurpose,
 }) => {
+  /** Hooks */
   const [open, setOpen] = useState(false);
   const anchorRef = useRef<HTMLButtonElement>(null);
 
+  //DropDown functions declarations
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
   };
@@ -41,8 +43,6 @@ const SignUpDropDownMenu: React.FC<SignUpDropDownMenuProps> = ({
       setOpen(false);
     }
   }
-
-  // return focus to the button when we transitioned from !open -> open
   const prevOpen = useRef(open);
   useEffect(() => {
     if (prevOpen.current === true && open === false) {
@@ -52,6 +52,7 @@ const SignUpDropDownMenu: React.FC<SignUpDropDownMenuProps> = ({
     prevOpen.current = open;
   }, [open]);
 
+  //Logic functions declarations
   const handleSelectWork = (event: Event | React.SyntheticEvent) => {
     if (setPurpose) {
       setPurpose("work");

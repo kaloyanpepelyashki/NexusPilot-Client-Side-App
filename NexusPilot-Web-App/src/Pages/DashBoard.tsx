@@ -80,7 +80,10 @@ export const DashBoard = () => {
               projectsList?.length < 0 ? (
                 <CreateProjectBigCTA setState={setOpenCreateProjectOverlay} />
               ) : (
-                <ProjectItemsHolder projectsList={projectsList} />
+                <ProjectItemsHolder
+                  setShouldReload={setShouldReloald}
+                  projectsList={projectsList}
+                />
               )
             ) : (
               <CreateProjectBigCTA setState={setOpenCreateProjectOverlay} />

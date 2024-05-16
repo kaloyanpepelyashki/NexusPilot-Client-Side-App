@@ -7,7 +7,7 @@ import { SignUpContext } from "../../ContextProviders/SignUpContextProvider";
 import { useNavigate } from "react-router-dom";
 
 const SignUpScreenInitial: React.FC = () => {
-  //Hooks
+  /** Hooks */
   //The signUpContext comes from the SignUpContextProvider context component
   const signUpContext = useContext(SignUpContext);
   const navigate = useNavigate();
@@ -16,6 +16,7 @@ const SignUpScreenInitial: React.FC = () => {
 
   const continueAction = (): void => {
     setNickNameError(false);
+    //Error handling
     if (
       signUpContext?.userNickName?.length == 0 ||
       signUpContext?.userNickName == null

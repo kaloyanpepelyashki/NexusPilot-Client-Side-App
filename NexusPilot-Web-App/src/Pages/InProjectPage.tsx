@@ -7,6 +7,7 @@ import { useContext, useEffect, useState } from "react";
 import ProjectItem from "../Models/ProjectItem";
 import { AccessState } from "../ContextProviders/AccessStateProvider";
 import TasksService from "../ServiceLayer/TaskService";
+import Add from "@mui/icons-material/Add";
 
 const InProjectPage: React.FC = () => {
   //Hooks
@@ -71,11 +72,18 @@ const InProjectPage: React.FC = () => {
       <SideBar projectTitle={currentProject?.title} />
       <div className="in-project-content-wrapper w-full h-full flex flex-col">
         <InProjectTopBar />
-        <h2>in project page</h2>
-        <div className="w-1/4 bg-primary">
-          //To be fixed later
-          {projectTasksList?.length == 0 ? <TaskItem /> : " "}
-        </div>
+
+        <section className="tasks-pool-section w-full heigh-full flex flex-col items-start">
+          <div className="active tasks pool w-full h-1/2 flex flex-col items-start pl-10">
+            <div className="active-pool-heading-holder flex flex-row items-center mt-10 ">
+              <h2 className="text-heading text-2xl font-bold">Active Tasks</h2>
+              <div className="ml-5 text-4xl">
+                <Add fontSize="inherit" className="text-heading font-bold " />
+              </div>
+            </div>
+            {projectTasksList?.length == 0 ? <TaskItem /> : " "}
+          </div>
+        </section>
       </div>
     </main>
   );

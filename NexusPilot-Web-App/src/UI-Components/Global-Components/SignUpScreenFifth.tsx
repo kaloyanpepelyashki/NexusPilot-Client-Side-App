@@ -7,10 +7,11 @@ import { SignUpContext } from "../../ContextProviders/SignUpContextProvider";
 import { useNavigate } from "react-router-dom";
 
 const SignUpScreenFifth: React.FC = () => {
-  //Hooks
+  /** Hooks */
   //The signUpContext comes from the SignUpContextProvider context component
   const signUpContext = useContext(SignUpContext);
   const navigate = useNavigate();
+
   const [emailError, setEmailError] = useState<boolean>(false);
   const [passwordError, setPasswordError] = useState<boolean>(false);
 

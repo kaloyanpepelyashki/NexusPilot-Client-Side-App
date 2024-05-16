@@ -4,7 +4,6 @@ import CreateProjectSecondStep from "../Small-Components/CreateProjectSecondStep
 import { Dayjs } from "dayjs";
 import CreateProjectLastStep from "../Small-Components/CreateProjectLastStep";
 import ProjectsService from "../../ServiceLayer/ProjectsService";
-import { useNavigate } from "react-router-dom";
 
 type CreateProjectOverlayProps = {
   setCloseState: React.Dispatch<React.SetStateAction<boolean>>;
@@ -19,9 +18,8 @@ const CreateProjectOverlay: React.FC<CreateProjectOverlayProps> = ({
   userId,
   jwt,
 }) => {
-  //Hooks
-  const navigate = useNavigate();
-
+  /** Hooks */
+  //In charge of handling which component to render on screen
   const [currentStep, setCurrentStep] = useState<number>(1);
 
   const [title, setTitle] = useState<string | undefined>("");
@@ -60,10 +58,6 @@ const CreateProjectOverlay: React.FC<CreateProjectOverlayProps> = ({
 
   const finishProjectCreationAction = async (): Promise<void> => {
     try {
-      if (!userId || !jwt) {
-        navigate("/");
-      }
-
       if (
         !title ||
         !description ||
@@ -75,6 +69,7 @@ const CreateProjectOverlay: React.FC<CreateProjectOverlayProps> = ({
         return window.alert("Please fill out all fields");
       }
 
+      //Converts the dates in the specific format required by the server and casts them to a string
       const startDateString: string = startDate
         .format("YYYY-MM-DDTHH:mm:ss.SSSZ")
         .toString();

@@ -7,13 +7,14 @@ import { useNavigate } from "react-router-dom";
 import SignUpDropDownMenu from "../Small-Components/SignUpDropDownMenu";
 
 const SignUpScreenSecond: React.FC = () => {
-  //Hooks
+  /** Hooks */
   //The signUpContext comes from the SignUpContextProvider context component
   const signUpContext = useContext(SignUpContext);
   const [purpose, setPurpose] = useState<string | undefined>("");
   const navigate = useNavigate();
 
   const continueAction = (): void => {
+    //The use is navigated to the next component, based on what purpose they selected
     switch (purpose) {
       case "work":
         navigate("/auth/signup/step3");

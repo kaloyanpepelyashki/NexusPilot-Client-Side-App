@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import SignUpTextArea from "../Atomic-components/SignUpTextArea";
 
 const SignUpScreenFourth: React.FC = () => {
-  //Hooks
+  /** Hooks */
   //The signUpContext comes from the SignUpContextProvider context component
   const signUpContext = useContext(SignUpContext);
   const navigate = useNavigate();

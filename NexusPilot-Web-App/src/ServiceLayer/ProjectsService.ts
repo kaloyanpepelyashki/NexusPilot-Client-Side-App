@@ -1,4 +1,3 @@
-import { Tune } from "@mui/icons-material";
 import ProjectItem from "../Models/ProjectItem";
 
 /**
@@ -44,6 +43,12 @@ class ProjectsService {
     }
   }
 
+  /**
+   *  This method is necessary to  fetch a single project object (object data)*
+   * @param projectId
+   * @param jwt
+   * @returns ProjectItem or null
+   */
   public async getProjectData(
     projectId: string,
     jwt: string
@@ -71,6 +76,18 @@ class ProjectsService {
     }
   }
 
+  /**
+   * This method is called to create a new project
+   * @param projectTitle
+   * @param projectDescription
+   * @param projectStartDate
+   * @param projectEndDate
+   * @param projectThumbnailUrl
+   * @param projectBackgroundUrl
+   * @param projectOwnerId
+   * @param jwt
+   * @returns bolean
+   */
   public async createNewProject(
     projectTitle: string,
     projectDescription: string,
@@ -107,6 +124,34 @@ class ProjectsService {
       return false;
     } catch (e) {
       console.log(`Error creating new project: ${e}`);
+      throw e;
+    }
+  }
+  public async closeProject(
+    projectUUID: string,
+    jwt: string
+  ): Promise<boolean> {
+    try {
+      console.log(projectUUID);
+      const response = await fetch(
+        `${this.serviceUrl}/api/Mutation/closeProject`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${jwt}`,
+          },
+          body: JSON.stringify(`${projectUUID}`),
+        }
+      );
+
+      if (response.status == 200) {
+        return true;
+      }
+
+      return false;
+    } catch (e) {
+      console.log(`Error closing project ${projectUUID}: ${e}`);
       throw e;
     }
   }

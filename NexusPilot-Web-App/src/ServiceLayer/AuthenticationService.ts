@@ -42,7 +42,7 @@ class AuthenticationService {
     }
   }
 
-  public async fetchUserProfile(jwt: string, userId: string) {
+  public async fetchUserProfile(jwt: string, userId: string): Promise<User> {
     try {
       const response = await fetch(
         `${this.serviceUrl}/api/Retrieval/getUser/${userId}`,
@@ -74,6 +74,7 @@ class AuthenticationService {
       }
     } catch (e) {
       console.log(`Error getting user ${userId}`);
+      throw e;
     }
   }
 

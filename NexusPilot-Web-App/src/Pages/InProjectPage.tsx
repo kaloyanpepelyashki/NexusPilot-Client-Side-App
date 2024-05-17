@@ -80,41 +80,80 @@ const InProjectPage: React.FC = () => {
 
   return (
     <>
-      <main className="in-project-page-main-section w-full h-full flex flex-row ">
+      <main className="in-project-page-main-section w-full h-full flex">
         <SideBar projectTitle={currentProject?.title} />
         <div className="in-project-content-wrapper w-full h-full flex flex-col">
           <InProjectTopBar />
 
-          <section className="tasks-pool-section w-full heigh-full flex flex-col items-start">
-            <div className="active tasks pool w-full h-1/2 flex flex-col items-start pl-10">
-              <div className="active-pool-heading-holder flex flex-row items-center mt-10 mb-4">
-                <h2 className="text-heading text-2xl font-bold">
+          <section
+            style={{
+              background: `url(${currentProject?.backGroundImageUrl})`,
+            }}
+            className="tasks-pool-section w-full h-full flex flex-col items-start bg-cover  flex-row"
+          >
+            <div className="background-cover w-full h-5/6 absolute bg-secondary opacity-20 overflow-y-hidden"></div>
+            <div className="active tasks pool w-full h-1/2 flex flex-col items-start pl-10  z-20">
+              <div className="active-pool-heading-holder w-full flex flex-row items-center mt-10 mb-4 p-5 ">
+                <h2 className="text-secondary text-2xl font-extrabold">
                   Active Tasks
                 </h2>
                 <div
                   onClick={() => setOpenOverlay(true)}
                   className="ml-5 text-4xl hover:cursor-pointer hover:scale-110"
                 >
-                  <Add fontSize="inherit" className="text-heading font-bold" />
+                  <Add
+                    fontSize="inherit"
+                    className="text-secondary font-bold"
+                  />
                 </div>
               </div>
               <div className="w-full flex flex-row flex-nowrap">
                 {projectTasksList && projectTasksList?.length > 0
                   ? projectTasksList.map((task) => {
-                      return (
-                        <TaskItemComponent
-                          summary={task.summary}
-                          endDate={task.endDate}
-                          priority={task.pirority}
-                        />
-                      );
+                      if (task.done == false) {
+                        console.log(task);
+                        return (
+                          <TaskItemComponent
+                            id={task.id}
+                            summary={task.summary}
+                            endDate={task.endDate}
+                            priority={task.pirority}
+                            shouldReload={setShouldReload}
+                          />
+                        );
+                      }
+                    })
+                  : " "}
+              </div>
+            </div>
+            <div className="active tasks pool w-full h-1/2 flex flex-col items-start pl-10  z-20">
+              <div className="active-pool-heading-holder w-full flex flex-row items-center mt-10 mb-4 p-5 ">
+                <h2 className="text-secondary text-2xl font-extrabold">
+                  Closed Tasks
+                </h2>
+              </div>
+              <div className="w-full flex flex-row flex-nowrap">
+                {projectTasksList && projectTasksList?.length > 0
+                  ? projectTasksList.map((task) => {
+                      if (task.done) {
+                        console.log(task);
+                        return (
+                          <TaskItemComponent
+                            id={task.id}
+                            summary={task.summary}
+                            endDate={task.endDate}
+                            priority={task.pirority}
+                            shouldReload={setShouldReload}
+                          />
+                        );
+                      }
                     })
                   : " "}
               </div>
             </div>
           </section>
         </div>
-      </main>{" "}
+      </main>
       {openOverlay ? (
         <CreateTaskOverlay
           jwt={jwt ? jwt : " "}

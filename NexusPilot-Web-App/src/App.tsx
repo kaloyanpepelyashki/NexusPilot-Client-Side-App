@@ -19,7 +19,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 function App() {
   return (
-    <div className="w-full h-full bg-background">
+    <div className="w-full h-full bg-background overflow-y-hidden">
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <AccessStateProviderComponent>
           <SignUpContextProvider>

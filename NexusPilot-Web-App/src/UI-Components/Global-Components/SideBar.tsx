@@ -6,7 +6,7 @@ type SideBarProps = {
 
 const SideBar: React.FC<SideBarProps> = ({ projectTitle }) => {
   return (
-    <aside className="w-44 h-full flex flex-col items-center pt-4 px-2 bg-primary z-10">
+    <aside className="w-44 h-full flex flex-col items-center pt-4 px-2 bg-primary z-10 drop-shadow-lg">
       <div className="side-bar-back-button-holder w-full flex flex-col items-start">
         <BackButton textColor="text-secondary" />
       </div>

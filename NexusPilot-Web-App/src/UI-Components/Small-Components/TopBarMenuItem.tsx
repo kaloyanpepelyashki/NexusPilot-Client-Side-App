@@ -21,7 +21,7 @@ const TopBarMenu: React.FC = () => {
     setAnchorEl(null);
   };
 
-  //Function declarations
+  //   Function declarations
   const signUserOut = () => {
     if (accessState?.currentUserState?.jwt != undefined) {
       accessState.currentUserState.jwt = "";
@@ -32,7 +32,6 @@ const TopBarMenu: React.FC = () => {
     if (accessState?.currentUserState?.userId != undefined) {
       accessState.currentUserState.userId = "";
     }
-
     return navigate("/");
   };
 

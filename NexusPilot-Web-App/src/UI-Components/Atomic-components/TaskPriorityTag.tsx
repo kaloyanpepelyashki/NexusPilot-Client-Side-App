@@ -18,7 +18,9 @@ const TaskPriorityTag: React.FC<PriorityProps> = ({ priority }) => {
       rounded-sm"
       style={{ backgroundColor: tagColor }}
     >
-      <p className="priority text-xs font-semibold">High</p>
+      <p className="priority text-xs text-secondary font-semibold">
+        {priority}
+      </p>
     </div>
   );
 };

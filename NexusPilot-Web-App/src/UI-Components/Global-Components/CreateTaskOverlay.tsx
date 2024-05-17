@@ -68,7 +68,7 @@ const CreateTaskOverlay: React.FC<CreateTaskOverlayProps> = ({
     }
   };
   return (
-    <div className="create-task-overlay-wrapper w-full h-full absolute inset-0 flex flex-col items-center justify-center ">
+    <div className="create-task-overlay-wrapper w-full h-full absolute inset-0 flex flex-col items-center justify-center z-50 ">
       <div className="create-task-overlay-background w-full h-full absolute inset-0 bg-background-2 opacity-30"></div>
       <div className="create-task-form-wrapper w-2/5 h-2/4 flex flex-col items-center bg-white rounded-xl p-9 bg-secondary z-10">
         <div className="reate-task-form-wrapper-top-section w-full flex flex-row  justify-end">

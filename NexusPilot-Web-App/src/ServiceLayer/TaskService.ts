@@ -77,6 +77,30 @@ class TasksService {
       throw e;
     }
   }
+  public async completeTask(taskId: string, jwt: string): Promise<boolean> {
+    try {
+      const response = await fetch(
+        `${this.serviceUrl}/api/Mutation/markTaskDone`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${jwt}`,
+          },
+          body: JSON.stringify(taskId),
+        }
+      );
+
+      if (response.status == 200) {
+        return true;
+      }
+
+      return false;
+    } catch (e) {
+      console.log("Error completing task");
+      throw e;
+    }
+  }
 }
 
 export default TasksService;

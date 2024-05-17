@@ -69,12 +69,13 @@ export const DashBoard = () => {
         {isLoading ? (
           <Loader />
         ) : (
-          <main className="dashboard-page-main-container h-5/6 flex flex-col justify-center items-center">
+          <main className="dashboard-page-main-container h-full flex flex-col justify-center items-center">
             {projectsList != null ? (
               projectsList?.length < 0 ? (
                 <CreateProjectBigCTA setState={setOpenCreateProjectOverlay} />
               ) : (
                 <ProjectItemsHolder
+                  setOpenOverlay={setOpenCreateProjectOverlay}
                   setShouldReload={setShouldReloald}
                   projectsList={projectsList}
                 />

@@ -4,20 +4,28 @@ import TaskPriorityTag from "../Atomic-components/TaskPriorityTag";
 import React, { useContext, useState } from "react";
 import { AccessState } from "../../ContextProviders/AccessStateProvider";
 import TaskService from "../../ServiceLayer/TaskService";
+import { MoreHoriz } from "@mui/icons-material";
+import TaskExpandedOverlay from "./TaskExpandedOverlay";
 
 type TaskItemProps = {
   id: string;
   summary: string;
+  description: string;
+  startDate: string;
   endDate: string;
   priority: string;
+  done: boolean;
   shouldReload: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const TaskItemComponent: React.FC<TaskItemProps> = ({
   id,
   summary,
+  description,
+  startDate,
   endDate,
   priority,
+  done,
   shouldReload,
 }) => {
   /** Hooks */
@@ -25,6 +33,8 @@ const TaskItemComponent: React.FC<TaskItemProps> = ({
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+
+  const [openOverlay, setOpenOverlay] = useState<boolean>(false);
 
   //Menu coponent function declarations
   const handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
@@ -58,33 +68,62 @@ const TaskItemComponent: React.FC<TaskItemProps> = ({
   };
 
   return (
-    <a onMouseEnter={handleClick}>
-      <div className="task-item-wrapper w-30 h-20 flex flex-col px-2.5 pt-2.5 pb-1.5 mr-5 bg-secondary">
-        <div className="task-main-content-section flex flex-row justify-between items-start">
-          <div className="task-title-and-due flex flex-col items-start">
-            <h4 className="text-base font-medium text-heading">{summary}</h4>
-            <h5 className="text-sm font-medium text-heading">Due: {endDate}</h5>
+    <>
+      <a>
+        <div className="task-item-wrapper w-72 h-28 flex flex-col px-2.5 pt-2.5 pb-1.5 mr-5 bg-secondary rounded-lg">
+          <div className="task-item-menu-holder w-full flex flex-row justify-end">
+            <a className="hover:cursor-pointer" onClick={handleClick}>
+              <MoreHoriz />
+            </a>
           </div>
-          <TaskPriorityTag priority={priority} />
+          <div className="task-main-content-section flex flex-row justify-between items-start mb-2">
+            <div className="task-title-and-due flex flex-col items-start">
+              <h4 className="text-base font-bold text-heading">{summary}</h4>
+              <h5 className="text-sm font-medium text-heading">
+                Due: {endDate}
+              </h5>
+            </div>
+            <TaskPriorityTag done={done} priority={priority} />
+          </div>
+          <div className="task-assignees-list flex flex-row">
+            <AssigneeAvatart imageUrl="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?cs=srgb&dl=pexels-simon-robben-55958-614810.jpg&fm=jpg" />
+            <AssigneeAvatart imageUrl="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?cs=srgb&dl=pexels-simon-robben-55958-614810.jpg&fm=jpg" />
+            <AssigneeAvatart imageUrl="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?cs=srgb&dl=pexels-simon-robben-55958-614810.jpg&fm=jpg" />
+          </div>
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{
+              "aria-labelledby": "basic-button",
+            }}
+          >
+            <MenuItem onClick={() => setOpenOverlay(true)}>
+              Expand task
+            </MenuItem>
+            {done ? (
+              ""
+            ) : (
+              <MenuItem onClick={completeTask}>Complete task</MenuItem>
+            )}
+          </Menu>
         </div>
-        <div className="task-assignees-list flex flex-row">
-          <AssigneeAvatart imageUrl="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?cs=srgb&dl=pexels-simon-robben-55958-614810.jpg&fm=jpg" />
-          <AssigneeAvatart imageUrl="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?cs=srgb&dl=pexels-simon-robben-55958-614810.jpg&fm=jpg" />
-          <AssigneeAvatart imageUrl="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?cs=srgb&dl=pexels-simon-robben-55958-614810.jpg&fm=jpg" />
-        </div>
-        <Menu
-          id="basic-menu"
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleClose}
-          MenuListProps={{
-            "aria-labelledby": "basic-button",
-          }}
-        >
-          <MenuItem onClick={completeTask}>Complete task</MenuItem>
-        </Menu>
-      </div>
-    </a>
+      </a>
+      {openOverlay ? (
+        <TaskExpandedOverlay
+          summary={summary}
+          description={description}
+          startDate={startDate}
+          endDate={endDate}
+          priority={priority}
+          done={done}
+          setCloseState={setOpenOverlay}
+        />
+      ) : (
+        " "
+      )}
+    </>
   );
 };
 

@@ -40,7 +40,7 @@ const SignUpScreenSecond: React.FC = () => {
         </div>
         {/* Widget Main content holder */}
         <div className="flex flex-col w-full h-3/4">
-          <SignUpDropDownMenu setPurpose={setPurpose} />
+          <SignUpDropDownMenu purpose={purpose} setPurpose={setPurpose} />
         </div>
         <div className="w-full flex flex-row justify-between mt-3">
           <SignUpTextButton />

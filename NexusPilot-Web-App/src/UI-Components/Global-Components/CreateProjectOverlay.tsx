@@ -101,7 +101,7 @@ const CreateProjectOverlay: React.FC<CreateProjectOverlayProps> = ({
   };
 
   return (
-    <div className="create-project-overlay-wrapper w-full h-full absolute inset-0 flex flex-col items-center justify-center ">
+    <div className="create-project-overlay-wrapper w-full h-full absolute inset-0 flex flex-col items-center justify-center z-50">
       <div className="create-project-overlay-background w-full h-full absolute inset-0 bg-background-2 opacity-30"></div>
       {currentStep == 1 ? (
         <CreateProjectFirstStep

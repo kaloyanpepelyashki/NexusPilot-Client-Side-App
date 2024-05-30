@@ -7,12 +7,14 @@ import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
 import { useEffect, useRef, useState } from "react";
 type SignUpDropDownMenuProps = {
+  purpose: string;
   setPurpose:
     | React.Dispatch<React.SetStateAction<string | undefined>>
     | undefined;
 };
 
 const SignUpDropDownMenu: React.FC<SignUpDropDownMenuProps> = ({
+  purpose,
   setPurpose,
 }) => {
   /** Hooks */
@@ -90,7 +92,7 @@ const SignUpDropDownMenu: React.FC<SignUpDropDownMenuProps> = ({
         aria-haspopup="true"
         onClick={handleToggle}
       >
-        Select
+        {!purpose || purpose.length == 0 ? "Select" : purpose}
       </Button>
       <Popper
         open={open}

@@ -1,13 +1,17 @@
 import MenuIcon from "@mui/icons-material/Menu";
 
 import { Menu, MenuItem } from "@mui/material";
+import Divider from "@mui/material/Divider";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AccessState } from "../../ContextProviders/AccessStateProvider";
+import { ExitToApp, PermIdentity } from "@mui/icons-material";
 
 const TopBarMenu: React.FC = () => {
   /** Hooks */
   const accessState = useContext(AccessState);
+  const userNickName = accessState?.userObject?.nickName;
+  const userRole = accessState?.userObject?.role;
 
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -52,7 +56,22 @@ const TopBarMenu: React.FC = () => {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={signUserOut}>Sign out</MenuItem>
+        <div className="w-full flex flex-col items-start px-20 py-26">
+          <h3 className="text-lg font-bold">{userNickName}</h3>
+          <h4 className="text-sm">{userRole}</h4>
+        </div>
+        <Divider />
+        <MenuItem>
+          <div className="w-full flex flex-row justify-between">
+            Account &nbsp; <PermIdentity />
+          </div>
+        </MenuItem>
+        <Divider />
+        <MenuItem onClick={signUserOut}>
+          <div className="w-full flex flex-row justify-between">
+            Sign out &nbsp; <ExitToApp />
+          </div>
+        </MenuItem>
       </Menu>
     </>
   );

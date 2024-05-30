@@ -22,7 +22,7 @@ class ProjectsService {
   ): Promise<ProjectItem[] | null> {
     try {
       const response = await fetch(
-        `${this.serviceUrl}/api/Retrieval/allProjectsForUser/${userId}`,
+        `${this.serviceUrl}/api/v1/Retrieval/allProjectsForUser/${userId}`,
         {
           method: "GET",
           headers: {
@@ -33,7 +33,6 @@ class ProjectsService {
       );
       if (response.status == 200) {
         const data = await response.json();
-
         return data;
       }
       return null;
@@ -55,7 +54,7 @@ class ProjectsService {
   ): Promise<ProjectItem | null> {
     try {
       const response = await fetch(
-        `${this.serviceUrl}/api/Retrieval/project/${projectId}`,
+        `${this.serviceUrl}/api/v1/Retrieval/project/${projectId}`,
         {
           method: "GET",
           headers: {
@@ -99,22 +98,25 @@ class ProjectsService {
     jwt: string
   ): Promise<boolean> {
     try {
-      const response = await fetch(`${this.serviceUrl}/api/Creation/project`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${jwt}`,
-        },
-        body: JSON.stringify({
-          userUUId: projectOwnerId,
-          title: projectTitle,
-          description: projectDescription,
-          tumbnailImageUrl: projectThumbnailUrl,
-          backgroundImageUrl: projectBackgroundUrl,
-          startDate: projectStartDate,
-          endDate: projectEndDate,
-        }),
-      });
+      const response = await fetch(
+        `${this.serviceUrl}/api/v1/Creation/project`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${jwt}`,
+          },
+          body: JSON.stringify({
+            userUUId: projectOwnerId,
+            title: projectTitle,
+            description: projectDescription,
+            tumbnailImageUrl: projectThumbnailUrl,
+            backgroundImageUrl: projectBackgroundUrl,
+            startDate: projectStartDate,
+            endDate: projectEndDate,
+          }),
+        }
+      );
 
       if (response.status == 200) {
         return true;
@@ -134,7 +136,7 @@ class ProjectsService {
     try {
       console.log(projectUUID);
       const response = await fetch(
-        `${this.serviceUrl}/api/Mutation/closeProject`,
+        `${this.serviceUrl}/api/v1/Mutation/closeProject`,
         {
           method: "PATCH",
           headers: {

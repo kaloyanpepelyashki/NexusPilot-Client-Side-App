@@ -17,7 +17,7 @@ class TasksService {
   ): Promise<TaskItem[] | null> {
     try {
       const response = await fetch(
-        `${this.serviceUrl}/api/Retrieval/allProjectTasks/${projectId}`,
+        `${this.serviceUrl}/api/v1/Retrieval/allProjectTasks/${projectId}`,
         {
           method: "GET",
           headers: {
@@ -49,23 +49,26 @@ class TasksService {
     jwt: string
   ): Promise<boolean> {
     try {
-      const response = await fetch(`${this.serviceUrl}/api/Creation/newTask`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${jwt}`,
-        },
-        body: JSON.stringify({
-          taskOwnerUUID: userId,
-          projectUUID: projectId,
-          summary: summary,
-          description: description,
-          imageUrl: "test",
-          startDate: startDate,
-          endDate: endDate,
-          priority: priority,
-        }),
-      });
+      const response = await fetch(
+        `${this.serviceUrl}/api/v1/Creation/newTask`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${jwt}`,
+          },
+          body: JSON.stringify({
+            taskOwnerUUID: userId,
+            projectUUID: projectId,
+            summary: summary,
+            description: description,
+            imageUrl: "test",
+            startDate: startDate,
+            endDate: endDate,
+            priority: priority,
+          }),
+        }
+      );
 
       if (response.status == 200) {
         return true;
@@ -80,7 +83,7 @@ class TasksService {
   public async completeTask(taskId: string, jwt: string): Promise<boolean> {
     try {
       const response = await fetch(
-        `${this.serviceUrl}/api/Mutation/markTaskDone`,
+        `${this.serviceUrl}/api/v1/Mutation/markTaskDone`,
         {
           method: "PATCH",
           headers: {

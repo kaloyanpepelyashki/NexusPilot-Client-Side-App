@@ -63,28 +63,29 @@ const ProjectItemComponent: React.FC<ProjectItemProps> = ({
     }
   };
   return (
-    <div className="transition-all hover:scale-110 hover:cursor-pointer">
-      <div className="project-component-wrapper h-44 w-80 relative flex flex-col justify-between mr-12 pl-4 rounded-lg bg-white ">
-        <div className="project-component-top-section w-full flex justify-between pt-3 backdrop-blur-sm z-10 pl-3">
+    <div className=" transition-all hover:scale-110 hover:cursor-pointer rounded-lg">
+      <div className="project-component-wrapper h-44 w-80 relative flex flex-col justify-between mr-12 bg-white ">
+        <div className="project-component-top-section w-full flex justify-between backdrop-blur-sm z-20 px-3  py-3">
           <h2
             onClick={() => handleNavigation(`/project/${id}`)}
-            className="project-component-title text-2xl font-bold text-heading "
+            className="project-component-title text-xl font-bold text-heading drop-shadow-lg shadow-white"
           >
             {title}
           </h2>
-          <a onClick={handleClick} className="hover:scale-110 z-30">
+          <a onClick={handleClick} className="hover:scale-110 z-40">
             <MoreHoriz />
           </a>
         </div>
-        <div className="project-component-bottom-section w-full flex justify-start pb-2 pl-2.5 backdrop-blur-sm z-10">
+        <div className="project-component-bottom-section w-full flex justify-start pb-2 pl-2.5 backdrop-blur-sm z-30">
           {closed == true ? (
             " "
           ) : (
-            <h4 className="project-component-deadline font-bold text-secondary z-20">
+            <h4 className="project-component-deadline font-bold text-secondary z-30">
               Deadline: {deadline}
             </h4>
           )}
         </div>
+        <div className="back-ground-image-blur w-full h-full flex absolute rounded-lg z-10 bg-secondary opacity-15"></div>
         <div
           className="back-ground-image w-full h-full  flex absolute rounded-lg bg-cover z-0"
           style={{

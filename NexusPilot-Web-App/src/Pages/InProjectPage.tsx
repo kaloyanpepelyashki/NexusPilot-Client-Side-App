@@ -6,25 +6,26 @@ import { useContext, useEffect, useState } from "react";
 import ProjectItem from "../Models/ProjectItem";
 import { AccessState } from "../ContextProviders/AccessStateProvider";
 import TasksService from "../ServiceLayer/TaskService";
-import Add from "@mui/icons-material/Add";
 import CreateTaskOverlay from "../UI-Components/Global-Components/CreateTaskOverlay";
 import TaskItem from "../Models/TskItem";
-import TaskItemComponent from "../UI-Components/Small-Components/TaskItem";
+import Loader from "../UI-Components/Atomic-components/Loader";
+import TasksSlider from "../UI-Components/Global-Components/TasksSlider";
 
 const InProjectPage: React.FC = () => {
   /** Hooks */
   const { projectId } = useParams();
   const accessState = useContext(AccessState);
-  const jwt = accessState?.currentUserState?.jwt;
-  const userId = accessState?.currentUserState?.userId;
-
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [currentProject, setCurrentProject] = useState<ProjectItem | null>(
     null
   );
-  const [projectTasksList, setProjectTasksList] = useState<TaskItem[] | null>(
-    null
-  );
+  // const [projectTasksList, setProjectTasksList] = useState<TaskItem[] | null>(
+  //   null
+  // );
+  const [projectActiveTasks, setProjectActiveTasks] = useState<TaskItem[]>();
+  const [projectClosedTasks, setProjectClosedTasks] = useState<TaskItem[]>();
+
   //Controls when the page reloads
   const [shouldReload, setShouldReload] = useState<boolean>(false);
   //Controls the state of the create task overlay
@@ -33,6 +34,10 @@ const InProjectPage: React.FC = () => {
   //Object declarations
   const projectsService: ProjectsService = new ProjectsService();
   const tasksService: TasksService = new TasksService();
+
+  //Variables
+  const jwt = accessState?.currentUserState?.jwt;
+  const userId = accessState?.currentUserState?.userId;
 
   const fetchProjectData = async () => {
     try {
@@ -51,12 +56,30 @@ const InProjectPage: React.FC = () => {
   const fetchProjectTasks = async () => {
     try {
       if (projectId && accessState?.currentUserState?.jwt) {
-        setProjectTasksList(
-          await tasksService.getAllProjectTasks(
-            projectId,
-            accessState.currentUserState.jwt
-          )
+        // setProjectTasksList(
+        //   await tasksService.getAllProjectTasks(
+        //     projectId,
+        //     accessState.currentUserState.jwt
+        //   )
+        // );
+        const activeTasks: TaskItem[] = [];
+        const closedTasks: TaskItem[] = [];
+
+        const projectTasks = await tasksService.getAllProjectTasks(
+          projectId,
+          accessState.currentUserState.jwt
         );
+
+        projectTasks?.forEach((taskItem: TaskItem) => {
+          if (taskItem.done) {
+            closedTasks.push(taskItem);
+          } else {
+            activeTasks.push(taskItem);
+          }
+        });
+
+        setProjectActiveTasks(activeTasks);
+        setProjectClosedTasks(closedTasks);
       } else {
         window.alert("Error fetching tasks. Try refresing the page");
       }
@@ -68,7 +91,9 @@ const InProjectPage: React.FC = () => {
 
   useEffect(() => {
     fetchProjectData();
-    fetchProjectTasks();
+    fetchProjectTasks().finally(() => {
+      setIsLoading(false);
+    });
   }, []);
 
   useEffect(() => {
@@ -76,82 +101,40 @@ const InProjectPage: React.FC = () => {
     if (shouldReload) {
       fetchProjectTasks();
     }
-  }, []);
+  }, [shouldReload]);
 
   return (
     <>
-      <main className="in-project-page-main-section w-full h-full flex">
+      <main className="in-project-page-main-section w-full h-full flex ">
         <SideBar projectTitle={currentProject?.title} />
-        <div className="in-project-content-wrapper w-full h-full flex flex-col">
+        <div className="in-project-content-wrapper w-full h-full flex flex-col overflow-y-hidden">
           <InProjectTopBar />
-
-          <section
-            style={{
-              background: `url(${currentProject?.backGroundImageUrl})`,
-            }}
-            className="tasks-pool-section w-full h-full flex flex-col items-start bg-cover  flex-row"
-          >
-            <div className="background-cover w-full h-5/6 absolute bg-secondary opacity-20 overflow-y-hidden"></div>
-            <div className="active tasks pool w-full h-1/2 flex flex-col items-start pl-10  z-20">
-              <div className="active-pool-heading-holder w-full flex flex-row items-center mt-10 mb-4 p-5 ">
-                <h2 className="text-secondary text-2xl font-extrabold">
-                  Active Tasks
-                </h2>
-                <div
-                  onClick={() => setOpenOverlay(true)}
-                  className="ml-5 text-4xl hover:cursor-pointer hover:scale-110"
-                >
-                  <Add
-                    fontSize="inherit"
-                    className="text-secondary font-bold"
-                  />
-                </div>
-              </div>
-              <div className="w-full flex flex-row flex-nowrap">
-                {projectTasksList && projectTasksList?.length > 0
-                  ? projectTasksList.map((task) => {
-                      if (task.done == false) {
-                        console.log(task);
-                        return (
-                          <TaskItemComponent
-                            id={task.id}
-                            summary={task.summary}
-                            endDate={task.endDate}
-                            priority={task.pirority}
-                            shouldReload={setShouldReload}
-                          />
-                        );
-                      }
-                    })
-                  : " "}
-              </div>
-            </div>
-            <div className="active tasks pool w-full h-1/2 flex flex-col items-start pl-10  z-20">
-              <div className="active-pool-heading-holder w-full flex flex-row items-center mt-10 mb-4 p-5 ">
-                <h2 className="text-secondary text-2xl font-extrabold">
-                  Closed Tasks
-                </h2>
-              </div>
-              <div className="w-full flex flex-row flex-nowrap">
-                {projectTasksList && projectTasksList?.length > 0
-                  ? projectTasksList.map((task) => {
-                      if (task.done) {
-                        console.log(task);
-                        return (
-                          <TaskItemComponent
-                            id={task.id}
-                            summary={task.summary}
-                            endDate={task.endDate}
-                            priority={task.pirority}
-                            shouldReload={setShouldReload}
-                          />
-                        );
-                      }
-                    })
-                  : " "}
-              </div>
-            </div>
-          </section>
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <section
+              style={{
+                background: `url(${currentProject?.backGroundImageUrl})`,
+              }}
+              className="tasks-pool-section w-full h-full relative flex flex-col items-start bg-cover flex-row overflow-y-hidden"
+            >
+              <div className="background-blur-layer w-full h-full absolute bg-secondary inset-0 opacity-30 "></div>
+              <TasksSlider
+                sliderHeading={currentProject?.closed ? "Incomplete" : "Active"}
+                hasCreateAction={currentProject?.closed ? false : true}
+                tasksList={projectActiveTasks ? projectActiveTasks : []}
+                setOpenOverlay={setOpenOverlay}
+                setShouldReload={setShouldReload}
+              />
+              <TasksSlider
+                sliderHeading={"Closed"}
+                hasCreateAction={false}
+                tasksList={projectClosedTasks ? projectClosedTasks : []}
+                setOpenOverlay={setOpenOverlay}
+                setShouldReload={setShouldReload}
+              />
+            </section>
+          )}
         </div>
       </main>
       {openOverlay ? (

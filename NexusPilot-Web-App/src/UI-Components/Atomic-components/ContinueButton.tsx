@@ -9,7 +9,7 @@ export const ContinueButton: React.FC<ContinueButtonProps> = ({
 }) => {
   return (
     <button onClick={action} className="w-1/5 rounded-md bg-active-el">
-      {heading}
+      &nbsp; {heading} &nbsp; &nbsp;
       <ArrowForwardIosIcon />
     </button>
   );

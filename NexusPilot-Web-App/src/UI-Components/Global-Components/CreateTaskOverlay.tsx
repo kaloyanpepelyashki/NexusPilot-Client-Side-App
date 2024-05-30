@@ -61,7 +61,7 @@ const CreateTaskOverlay: React.FC<CreateTaskOverlayProps> = ({
 
     if (result) {
       setShouldReload(true);
-      setCloseState(true);
+      setCloseState(false);
       return;
     } else {
       return window.alert("Error creating task. Try again");

@@ -10,13 +10,13 @@ import CreateProjectOverlay from "../UI-Components/Global-Components/CreateProje
 import Loader from "../UI-Components/Atomic-components/Loader";
 
 export const DashBoard = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const accessState = useContext(AccessState);
   const navigate = useNavigate();
 
   const [shouldReload, setShouldReloald] = useState<boolean>(false);
 
   const [projectsList, setProjectsList] = useState<ProjectItem[] | null>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const userId: string = accessState?.currentUserState?.userId
     ? accessState?.currentUserState?.userId
@@ -69,7 +69,7 @@ export const DashBoard = () => {
         {isLoading ? (
           <Loader />
         ) : (
-          <main className="dashboard-page-main-container h-full flex flex-col justify-center items-center">
+          <main className="dashboard-page-main-container h-full flex flex-col justify-center items-center pb-20">
             {projectsList != null ? (
               projectsList?.length < 0 ? (
                 <CreateProjectBigCTA setState={setOpenCreateProjectOverlay} />

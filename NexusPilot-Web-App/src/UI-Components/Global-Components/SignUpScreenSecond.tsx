@@ -24,7 +24,7 @@ const SignUpScreenSecond: React.FC = () => {
         navigate("/auth/signup/step4");
         break;
       case "personal":
-        signUpContext?.setUserRole("Hobbies");
+        signUpContext?.setUserRole("Hobbyist");
         navigate("/auth/signup/step4");
         break;
       default:
@@ -40,7 +40,10 @@ const SignUpScreenSecond: React.FC = () => {
         </div>
         {/* Widget Main content holder */}
         <div className="flex flex-col w-full h-3/4">
-          <SignUpDropDownMenu purpose={purpose} setPurpose={setPurpose} />
+          <SignUpDropDownMenu
+            purpose={purpose ? purpose : ""}
+            setPurpose={setPurpose}
+          />
         </div>
         <div className="w-full flex flex-row justify-between mt-3">
           <SignUpTextButton />
